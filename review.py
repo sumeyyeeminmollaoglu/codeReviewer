@@ -8,7 +8,7 @@ import logging
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 REPO = os.getenv("GITHUB_REPOSITORY")
-PR_NUMBER = os.getenv("GITHUB_REF").split("/")[-1]
+PR_NUMBER = os.getenv("GITHUB_REF")
 OWNER = os.getenv("GITHUB_REPOSITORY_OWNER")
 
 client = Mistral(api_key=MISTRAL_API_KEY)
