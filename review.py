@@ -8,6 +8,7 @@ GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 REPO = os.getenv("GITHUB_REPOSITORY")
 PR_NUMBER = os.getenv("GITHUB_REF").split("/")[-1]
+OWNER = os.getenv("GITHUB_REPOSITORY_OWNER")
 
 client = Mistral(api_key=MISTRAL_API_KEY)
 model = "mistral-small-latest"
@@ -32,7 +33,7 @@ def format_rules_for_prompt(rules):
 
 # Get changed files in the PR
 def get_pr_files():
-    url = f"https://api.github.com/repos/{REPO}/pulls/{PR_NUMBER}/files"
+    url = f"https://api.github.com/repos/{OWNER}/{REPO}/pulls/{PR_NUMBER}/files"
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
     response = requests.get(url, headers=headers)
     return response.json()
@@ -42,7 +43,6 @@ def get_pr_files():
 def extract_code_from_pr():
     files = get_pr_files()
     code_snippets = []
-    print(files)
     for file in files:
         print(file)
         if file["filename"].endswith(".py"):  # Only review Python files
