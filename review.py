@@ -8,7 +8,7 @@ import logging
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 REPO = os.getenv("GITHUB_REPOSITORY")
-PR_NUMBER = os.getenv("GITHUB_REF")
+PR_NUMBER = os.getenv("GITHUB_REF").split("/")[-2]
 OWNER = os.getenv("GITHUB_REPOSITORY_OWNER")
 
 client = Mistral(api_key=MISTRAL_API_KEY)
@@ -42,7 +42,7 @@ def get_pr_files():
         if isinstance(files, list):  # ✅ Ensure it's a list before processing
             return files
         else:
-            print("❌ Unexpected API response:", files, PR_NUMBER)
+            print("❌ Unexpected API response:", files)
             return []
     except Exception as e:
         print("❌ Error parsing GitHub API response:", str(e))
