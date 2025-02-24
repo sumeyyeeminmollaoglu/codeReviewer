@@ -33,7 +33,7 @@ def format_rules_for_prompt(rules):
 
 # Get changed files in the PR
 def get_pr_files():
-    url = f"https://api.github.com/repos/sumeyyeeminmollaoglu/{REPO}/pulls/{PR_NUMBER}/files"
+    url = f"https://api.github.com/repos/sumeyyeeminmollaoglu/{REPO}/pulls/6/files"
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
     response = requests.get(url, headers=headers)
     return response.json()
@@ -54,7 +54,7 @@ def extract_code_from_pr():
 
 # Post AI feedback as a GitHub comment
 def post_github_comment(feedback):
-    url = f"https://api.github.com/repos/{REPO}/issues/6/comments"
+    url = f"https://api.github.com/repos/{REPO}/issues/{PR_NUMBER}/comments"
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
     data = {"body": feedback}
     requests.post(url, json=data, headers=headers)
