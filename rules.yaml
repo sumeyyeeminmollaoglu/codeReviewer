@@ -1,0 +1,44 @@
+code_review_rules:
+  code_length_and_reusability:
+    - "Code should not be too long, making it difficult to read and understand."
+    - "Repeated code should be refactored into methods to improve reusability."
+    - "If too many columns are used in grouping and filtering, and they are used in multiple places, they should be stored in a configuration file."
+    - "Line length should follow PEP8 guidelines."
+
+  configuration_usage:
+    - "Raw data paths, KPI names, email lists, and credential information used in scenarios should be stored in a configuration file."
+
+  runtime_information:
+    - "Provide information about the current stage of execution within the scenario using a logging library."
+
+  execution_time_control:
+    - "Runner-trainer job durations in Airflow should be monitored."
+    - "Long-running Spark and Pandas code should be reviewed and optimized."
+    - "Use the time function to log execution durations of code segments."
+
+  exception_handling:
+    - "Use Try-Catch structures in data retrieval, data writing, and key computation areas to catch errors."
+
+  error_reporting:
+    - "After using a Try-Catch block, execution can continue if errors are non-critical, but since Airflow jobs won’t fail, an email should be sent to the developer or team."
+
+  detailed_data_logging:
+    - "Even if not affecting code quality, values not sent to the customer but contributing to anomalies (e.g., std, mean, anomaly score) should be logged."
+
+  code_readability:
+    - "Add comments only where necessary to improve readability."
+    - "Write docstrings explaining the purpose of methods, parameters (with types), and return values (with types)."
+
+  readme_file:
+    - "After completing the scenario and preparing the Armada documentation, add the Armada link, record name, or ID to the Readme.md file in the repository."
+    - "The Readme.md file should include information such as how to run the code and crontab schedules."
+
+  mail_logger_check:
+    - "Ensure mail logger functionality is verified."
+
+  armada_documentation:
+    - "Ensure the Armada documentation is correctly maintained."
+
+  output_tracking:
+    - "Monitor the average execution time of Airflow jobs."
+    - "Monitor the average resource usage of Airflow jobs."
