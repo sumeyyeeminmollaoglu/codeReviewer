@@ -42,7 +42,7 @@ def get_pr_files():
         if isinstance(files, list):  # ✅ Ensure it's a list before processing
             return files
         else:
-            print("❌ Unexpected API response:", files, PR_NUMBER, url, GITHUB_TOKEN)
+            print("❌ Unexpected API response:", files)
             return []
     except Exception as e:
         print("❌ Error parsing GitHub API response:", str(e))
@@ -100,7 +100,7 @@ def main():
             model=model,
             messages=[{"role": "user", "content": prompt}],
         )
-        ai_feedback = response.get("choices", [{}])[0].get("text", "").strip()
+        ai_feedback = response.choices[0].message.content
         post_github_comment(f"### 🧐 AI Code Review Feedback:\n{ai_feedback}")
 
     except Exception as e:
