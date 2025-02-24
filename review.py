@@ -33,7 +33,7 @@ def format_rules_for_prompt(rules):
 
 # Get changed files in the PR
 def get_pr_files():
-    url = f"https://api.github.com/repos/{OWNER}/{REPO}/pulls/{PR_NUMBER}/files"
+    url = f"https://api.github.com/repos/sumeyyeeminmollaoglu/{REPO}/pulls/{PR_NUMBER}/files"
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
     response = requests.get(url, headers=headers)
     return response.json()
