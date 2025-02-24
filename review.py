@@ -2,6 +2,7 @@ import os
 import requests
 import yaml
 from mistralai import Mistral
+import logging
 
 # Load GitHub & Mistral API Keys
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
@@ -33,23 +34,34 @@ def format_rules_for_prompt(rules):
 
 # Get changed files in the PR
 def get_pr_files():
-    url = f"https://api.github.com/repos/sumeyyeeminmollaoglu/{REPO}/pulls/6/files"
+    url = f"https://api.github.com/repos/sumeyyeeminmollaoglu/{REPO}/pulls/{PR_NUMBER}/files"
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
     response = requests.get(url, headers=headers)
-    return response.json()
+    try:
+        files = response.json()
+        if isinstance(files, list):  # ✅ Ensure it's a list before processing
+            return files
+        else:
+            print("❌ Unexpected API response:", files)
+            return []
+    except Exception as e:
+        print("❌ Error parsing GitHub API response:", str(e))
+        return []
 
 
 # Extract code from PR
 def extract_code_from_pr():
     files = get_pr_files()
     code_snippets = []
-    for file in files:
-        print(file)
-        if file["filename"].endswith(".py"):  # Only review Python files
-            patch = file["patch"]  # Get the changed lines
-            code_snippets.append(f"### File: {file['filename']}\n```python\n{patch}\n```\n")
+    for file_info in files:
+        if isinstance(file_info, dict) and "filename" in file_info and "patch" in file_info:
+            if file_info["filename"].endswith(".py"):  # ✅ Ensure correct file format
+                patch = file_info["patch"]  # ✅ Get changed code
+                code_snippets.append(f"### File: {file_info['filename']}\n```python\n{patch}\n```\n")
+        else:
+            print("⚠️ Skipping invalid file entry:", file_info)
 
-    return "\n".join(code_snippets)
+    return "\n".join(code_snippets) if code_snippets else "No Python files detected in PR."
 
 
 # Post AI feedback as a GitHub comment
