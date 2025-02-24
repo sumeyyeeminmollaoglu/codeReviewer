@@ -12,6 +12,12 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
+    - name: Debug GitHub Environment Variables
+      run: |
+        echo "🔹 GITHUB_REPOSITORY=${{ github.repository }}"
+        echo "🔹 GITHUB_REF=${{ github.ref }}"
+        echo "🔹 GITHUB_TOKEN length: $(echo -n ${{ secrets.GITHUB_TOKEN }} | wc -c)"
+
     - name: Set Up Python
       uses: actions/setup-python@v4
       with:
