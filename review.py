@@ -42,7 +42,7 @@ def get_pr_files():
         if isinstance(files, list):  # ✅ Ensure it's a list before processing
             return files
         else:
-            print("❌ Unexpected API response:", files, PR_NUMBER, url)
+            print("❌ Unexpected API response:", files, PR_NUMBER, url, GITHUB_TOKEN)
             return []
     except Exception as e:
         print("❌ Error parsing GitHub API response:", str(e))
