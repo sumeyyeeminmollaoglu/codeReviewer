@@ -54,7 +54,7 @@ def extract_code_from_pr():
 
 # Post AI feedback as a GitHub comment
 def post_github_comment(feedback):
-    url = f"https://api.github.com/repos/{REPO}/issues/{PR_NUMBER}/comments"
+    url = f"https://api.github.com/repos/{REPO}/issues/6/comments"
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
     data = {"body": feedback}
     requests.post(url, json=data, headers=headers)
